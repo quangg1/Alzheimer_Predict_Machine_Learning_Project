@@ -22,7 +22,7 @@ st.title("Alzheimer's Disease Prediction")
 st.write("""
 Nhập các thông tin bên dưới để dự đoán khả năng mắc bệnh Alzheimer:
 """)
-
+st.image("ahzimer_pic.jpg")
 # Form để nhập thông tin
 age = st.number_input("Age", min_value=60, max_value=100, step=1, value=60)
 gender = st.selectbox("Gender", ["Male", "Female"])
@@ -190,7 +190,7 @@ question_part6_8=st.checkbox("Không vẽ đúng", key="part6_8")
 question_part6_9=st.checkbox("Vẽ đúng", key="part6_9")
 if question_part6_8 and question_part6_9:
     st.warning("Bạn chỉ có thể chọn một trong hai. Vui lòng bỏ chọn câu còn lại")
-st.image("D:/Python/python_work/AI_machine learning/2_hinh_ngu_giac.png")
+st.image("2_hinh_ngu_giac.png")
 
 
 ## Xử lý kết quả điểm MMSE
