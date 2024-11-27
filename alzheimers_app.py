@@ -195,7 +195,8 @@ st.image("2_hinh_ngu_giac.png")
 
 ## Xử lý kết quả điểm MMSE
 # Tính điểm MMSE
-score=0
+if 'score' not in st.session_state:
+    st.session_state.score = 0  
 if st.button("# Tống điểm MMSE:"):
     score=0
     if question_1_true and not question_1_false:
@@ -245,6 +246,7 @@ if st.button("# Tống điểm MMSE:"):
         score+=1
     if question_part6_9 and not question_part6_8:
         score+=1
+    st.session_state.score = score
     st.success(f"{score}")
     
 # ADL
@@ -397,7 +399,7 @@ else:
     total_complaints_binary=0
 expected_features=["MMSE",'FunctionalAssessment','MemoryComplaints','BehavioralProblems','ADL']
 
-user_input=[score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
+user_input=[st.session_state.score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
 input_data = pd.DataFrame([user_input], columns=expected_features)
 
 # Khi nhấn nút, thực hiện dự đoán
