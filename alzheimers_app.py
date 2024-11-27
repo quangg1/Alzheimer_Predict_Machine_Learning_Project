@@ -14,7 +14,7 @@ scroll_to_top_script = """
 """
 st.markdown(scroll_to_top_script, unsafe_allow_html=True)
 # Load mô hình đã huấn luyện
-model = joblib.load(r"D:\Python\python_work\AI_machine learning\alzheimers_model.pkl")
+model = joblib.load(r"alzheimers_model.pkl")
 # Tiêu đề ứng dụng
 st.title("Alzheimer's Disease Prediction")
 
