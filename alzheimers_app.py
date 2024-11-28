@@ -9,7 +9,7 @@ model = joblib.load(r"alzheimers_model.pkl")
 # Tiêu đề ứng dụng
 st.title(
     "Alzheimer's Disease Prediction")
-st.image("D:/Python/python_work/AI_machine learning/ahzimer_pic.jpg")
+st.image("ahzimer_pic.jpg")
 # Giới thiệu
 st.write("""
 Nhập các thông tin bên dưới để dự đoán khả năng mắc bệnh Alzheimer:
@@ -182,7 +182,7 @@ question_part6_8=st.checkbox("Không vẽ đúng", key="part6_8")
 question_part6_9=st.checkbox("Vẽ đúng", key="part6_9")
 if question_part6_8 and question_part6_9:
     st.warning("Bạn chỉ có thể chọn một trong hai. Vui lòng bỏ chọn câu còn lại")
-st.image("D:/Python/python_work/AI_machine learning/2_hinh_ngu_giac.png")
+st.image("2_hinh_ngu_giac.png")
 
 
 ## Xử lý kết quả điểm MMSE
