@@ -5,7 +5,7 @@ import joblib  # Thư viện để load mô hình đã lưu
 
 
 # Load mô hình đã huấn luyện
-model = joblib.load(r"D:\Python\python_work\AI_machine learning\alzheimers_model.pkl")
+model = joblib.load(r"alzheimers_model.pkl")
 # Tiêu đề ứng dụng
 st.title(
     "Alzheimer's Disease Prediction")
