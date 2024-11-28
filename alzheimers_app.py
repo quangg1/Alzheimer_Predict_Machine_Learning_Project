@@ -240,6 +240,14 @@ if st.button("# Tống điểm MMSE:"):
         score+=1
     st.session_state.score = score
     st.success(f"{score}")
+if 24 <= session_state.score <= 30:
+    st.success("Không suy giảm nhận thức")
+elif 9 <= session_state.score <= 23:
+    st.warning("Suy giảm nhận thức nhẹ; (Có thể cần giám sát, hỗ trợ)")
+elif 10 <= session_state.score <= 18:
+    st.error("Suy giảm nhận thức trung bình; (Khiếm khuyết rõ, có thể cần giám sát 24/24h)")
+else:  session_state.score < 9
+    st.error("Suy giảm nhận thức nghiêm trọng; (Khiếm khuyết nặng, cần giám sát 24 giờ và trợ giúp trong sinh hoạt hàng ngày)")
     
 # ADL
 # Hàm tính điểm cho mỗi câu hỏi
@@ -332,7 +340,7 @@ elif 80<= total_adl_score <=100:
     st.write("Hoàn toàn tự lập")
 # Confusion
 ## Memory Complaint
-st.markdown("# Bộ câu hỏi kiểm tra trí nhớ của bệnh nhân (Memmory Complaints)")
+st.markdown("# Bộ câu hỏi kiểm tra trí nhớ của bệnh nhân (Memory Complaints)")
 memory_complaint_1 = st.radio("1. Bạn có thường xuyên quên đi đây là ngày nào trong tuần không ?", ("Có", "Không"))
 memory_complaint_2 = st.radio("2. Đôi khi bạn tìm kiếm một vật gì đó, bạn có quên mất nó là vật gì không?", ("Có", "Không"))
 memory_complaint_3 = st.radio("3. Gia đình và bạn bè bạn có nghĩ trí nhớ bạn đã kém đi so với trước không?", ("Có", "Không"))
