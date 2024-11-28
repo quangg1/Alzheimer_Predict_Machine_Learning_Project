@@ -403,7 +403,12 @@ if st.button("Dự đoán khả năng mắc bệnh Alzheimer"):
     probabilities = model.predict_proba(input_data)
 
     # Hiển thị kết quả dự đoán
-    st.write("Kết quả dự đoán:", "Có khả năng mắc bệnh Alzheimer" if prediction[0] == 1 else "Nguy cơ mắc Alzheimer thấp")
+if 0.4 <= probabilities[0][1] <= 0.6:
+    st.write("Kết quả dự đoán:", "Có khả năng mắc bệnh Alzheimer")
+elif probabilities[0][1] < 0.4:
+    st.write("Kết quả dự đoán:", "Không mắc bệnh Alzheimer")
+else:
+    st.write("Kết quả dự đoán:", "Có khả năng đã mắc bệnh Alzheimer")
     # Hiển thị xác suất
-    st.write(f"Xác xuất: {probabilities[0][1]:.2f}")
+st.write(f"Xác xuất: {probabilities[0][1]:.2f}")
 
