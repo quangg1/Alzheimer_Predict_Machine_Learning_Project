@@ -188,65 +188,67 @@ st.image("2_hinh_ngu_giac.png")
 ## Xử lý kết quả điểm MMSE
 # Tính điểm MMSE
 if 'score' not in st.session_state:
-    st.session_state.score = 0  
-if st.button("# Tống điểm MMSE:"):
-    score=0
-    if question_1_true and not question_1_false:
-        score+=1
-    if question_2_true and not question_2_false:
-        score+=1
-    if question_3_true and not question_3_false:
-        score+=1
-    if question_4_true and not question_4_false:
-        score+=1
-    if question_5_true and not question_5_false:
-        score+=1
-    if question_6_true and not question_6_false:
-        score+=1
-    if question_7_true and not question_7_false:
-        score+=1
-    if question_8_true and not question_8_false:
-        score+=1
-    # Phần2
-    if question_part2_1: score+=1
-    if question_part2_2: score+=2
-    if question_part2_3: score+=3
-    #Phần 3
-    if question_part3_1: score+=1
-    if question_part3_2: score+=2
-    if question_part3_3: score+=3
-    if question_part3_4: score+=4
-    if question_part3_5: score+=5
-    #Phần 4
-    if question_part4_1: score+=1
-    if question_part4_2: score+=2
-    if question_part4_3: score+=3
-    #Phần 5
-    if question5_1_true and not question5_1_false:
-        score+=1
-    if question5_2_true and not question5_2_false:
-        score+=1
-    if question5_3_true and not question5_3_false:
-        score+=1
+    st.session_state.score = 0
+
+# Hàm tính điểm
+def calculate_score():
+    score = 0
+    # Phần 1
+    if question_1_true and not question_1_false: score += 1
+    if question_2_true and not question_2_false: score += 1
+    if question_3_true and not question_3_false: score += 1
+    if question_4_true and not question_4_false: score += 1
+    if question_5_true and not question_5_false: score += 1
+    if question_6_true and not question_6_false: score += 1
+    if question_7_true and not question_7_false: score += 1
+    if question_8_true and not question_8_false: score += 1
+
+    # Phần 2
+    if question_part2_1: score += 1
+    if question_part2_2: score += 2
+    if question_part2_3: score += 3
+
+    # Phần 3
+    if question_part3_1: score += 1
+    if question_part3_2: score += 2
+    if question_part3_3: score += 3
+    if question_part3_4: score += 4
+    if question_part3_5: score += 5
+
+    # Phần 4
+    if question_part4_1: score += 1
+    if question_part4_2: score += 2
+    if question_part4_3: score += 3
+
+    # Phần 5
+    if question5_1_true and not question5_1_false: score += 1
+    if question5_2_true and not question5_2_false: score += 1
+    if question5_3_true and not question5_3_false: score += 1
+
     # Phần 6
-    if question_part6_1: score+=1
-    if question_part6_2: score+=2
-    if question_part6_3: score+=3
-    if question_part6_5 and not question_part6_4:
-        score+=1
-    if question_part6_6 and not question_part6_7:
-        score+=1
-    if question_part6_9 and not question_part6_8:
-        score+=1
-    st.session_state.score = score
-    st.success(f"{score}")
-if 24 <= session_state.score <= 30:
+    if question_part6_1: score += 1
+    if question_part6_2: score += 2
+    if question_part6_3: score += 3
+    if question_part6_5 and not question_part6_4: score += 1
+    if question_part6_6 and not question_part6_7: score += 1
+    if question_part6_9 and not question_part6_8: score += 1
+
+    return score
+
+# Nút tính toán
+if st.button("Tổng điểm MMSE:"):
+    st.session_state.score = calculate_score()
+    st.success(f"Điểm số của bạn: {st.session_state.score}")
+
+# Đánh giá mức độ
+score = st.session_state.score
+if 24 <= score <= 30:
     st.success("Không suy giảm nhận thức")
-elif 9 <= session_state.score <= 23:
+elif 19 <= score <= 23:
     st.warning("Suy giảm nhận thức nhẹ; (Có thể cần giám sát, hỗ trợ)")
-elif 10 <= session_state.score <= 18:
+elif 10 <= score <= 18:
     st.error("Suy giảm nhận thức trung bình; (Khiếm khuyết rõ, có thể cần giám sát 24/24h)")
-else: 
+else:
     st.error("Suy giảm nhận thức nghiêm trọng; (Khiếm khuyết nặng, cần giám sát 24 giờ và trợ giúp trong sinh hoạt hàng ngày)")
     
 # ADL
@@ -409,7 +411,7 @@ else:
     total_complaints_binary=0
 expected_features=["MMSE",'FunctionalAssessment','MemoryComplaints','BehavioralProblems','ADL']
 
-user_input=[st.session_state.score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
+user_input=[score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
 input_data = pd.DataFrame([user_input], columns=expected_features)
 
 # Khi nhấn nút, thực hiện dự đoán
