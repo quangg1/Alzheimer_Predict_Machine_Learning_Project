@@ -395,7 +395,7 @@ if total_behavior_issues >=7:
     total_behavior_issues_binary=1
 else:
     total_behavior_issues_binary=0
-if total_complaints>=7:
+if total_complaints>=10:
     total_complaints_binary=1
 else:
     total_complaints_binary=0
