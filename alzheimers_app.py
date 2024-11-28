@@ -334,24 +334,35 @@ elif 80<= total_adl_score <=100:
 ## Memory Complaint
 st.markdown("# Bộ câu hỏi kiểm tra trí nhớ của bệnh nhân (Memmory Complaints)")
 st.info("Số câu trả lời đạt 7/10 chứng tỏ người đó có vấn đề về trí nhớ")
-memory_complaint_1 = st.radio("1. Bạn có thường xuyên quên những sự kiện gần đây (ví dụ: các cuộc trò chuyện hoặc sự kiện vừa xảy ra)?", ("Có", "Không"))
-memory_complaint_2 = st.radio("2. Bạn có gặp khó khăn khi nhớ tên người quen hoặc những địa điểm quen thuộc không?", ("Có", "Không"))
-memory_complaint_3 = st.radio("3. Bạn có cảm thấy khó tập trung khi làm một việc nào đó và phải bắt đầu lại từ đầu không?", ("Có", "Không"))
-memory_complaint_4 = st.radio("4. Bạn có thường xuyên quên các cuộc hẹn hoặc các sự kiện đã được lên lịch không?", ("Có", "Không"))
-memory_complaint_5 = st.radio("5. Bạn có gặp khó khăn khi nhớ các bước trong một công việc đơn giản (ví dụ: nấu ăn, dọn dẹp)?", ("Có", "Không"))
-memory_complaint_6 = st.radio("6. Bạn có thường xuyên nhờ người khác nhắc nhở những việc bạn đã quên không?", ("Có", "Không"))
-memory_complaint_7 = st.radio("7. Bạn có cảm thấy trí nhớ của mình giảm sút theo thời gian không?", ("Có", "Không"))
-memory_complaint_8 = st.radio("8. Bạn có gặp khó khăn khi nhớ những chi tiết nhỏ của các sự kiện gần đây không?", ("Có", "Không"))
-memory_complaint_9 = st.radio("9. Bạn có cảm thấy như mình đang mất kiểm soát hoặc trí nhớ của mình bị suy giảm không?", ("Có", "Không"))
-memory_complaint_10 = st.radio("10. Bạn có cảm thấy lo lắng hoặc bất an về các vấn đề trí nhớ của mình không?", ("Có", "Không"))
-
+memory_complaint_1 = st.radio("1. Bạn có thường xuyên quên đi đây là ngày nào trong tuần không ?", ("Có", "Không"))
+memory_complaint_2 = st.radio("2. Đôi khi bạn tìm kiếm một vật gì đó, bạn có quên mất nó là vật gì không?", ("Có", "Không"))
+memory_complaint_3 = st.radio("3. Gia đình và bạn bè bạn có nghĩ trí nhớ bạn đã kém đi so với trước không?", ("Có", "Không"))
+memory_complaint_4 = st.radio("4. Bạn có hay quên tên bạn bè/ người thân xung quanh không?", ("Có", "Không"))
+memory_complaint_5 = st.radio("5. Bạn có gặp khó khăn khi cộng hai số lại với nhau mà không cần  viết ra giấy không ?", ("Có", "Không"))
+memory_complaint_6 = st.radio("6. Bạn có thường xuyên bị lỡ hẹn do quên mất chúng không?", ("Có", "Không"))
+memory_complaint_7 = st.radio("7. Bạn có hiếm khi thấy tràn trề năng lượng không?", ("Có", "Không"))
+memory_complaint_8 = st.radio("8. Bạn có cảm thấy khó tập trung trong một thười gian ngắn không?", ("Có", "Không"))
+memory_complaint_9 = st.radio("9. Bạn có thường đặt nhầm chìa khóa, và khi tìm lại, bạn có quên mất là mình đã đặt nó ở đó không?", ("Có", "Không"))
+memory_complaint_10 = st.radio("10. Bạn có hay khó chịu với những vấn đề rất nhỏ nhặt không?", ("Có", "Không"))
+memory_complaint_11 = st.radio("11. Bạn có hay vô tình lặp lại những gì đã nói không?", ("Có", "Không"))
+memory_complaint_12 = st.radio("12. Bạn có đôi khi bị lạc đường dù cho bạn đã đến nơi này trước đó không?", ("Có", "Không"))
+memory_complaint_13 = st.radio("13. Bạn có đôi khi quên đi những gì mình chuẩn bị nói không?", ("Có", "Không"))
+memory_complaint_14 = st.radio("14. Bạn có hay dùng caffein khi muốn đầu óc minh mẫn không?", ("Có", "Không"))
+memory_complaint_15 = st.radio("15. Bạn có cảm thấy học một việc gì đó khó hơn so với trước khia không?", ("Có", "Không"))
 # Đánh giá các câu trả lời và hiển thị kết quả
 total_complaints = sum([memory_complaint_1 == "Có", memory_complaint_2 == "Có", memory_complaint_3 == "Có",
                         memory_complaint_4 == "Có", memory_complaint_5 == "Có", memory_complaint_6 == "Có",
                         memory_complaint_7 == "Có", memory_complaint_8 == "Có", memory_complaint_9 == "Có",
-                        memory_complaint_10 == "Có"])
+                        memory_complaint_10 == "Có",memory_complaint_10 == "Có",memory_complaint_11 == "Có",memory_complaint_12 == "Có",memory_complaint_13 == "Có"
+                       ,memory_complaint_14 == "Có",memory_complaint_15 == "Có"])
 
-st.subheader(f"Tổng số vấn đề trí nhớ: {total_complaints} trên 10")
+st.subheader(f"Tổng số vấn đề trí nhớ: {total_complaints} trên 15")
+if 5<=total_complaints<=8:
+    st.success("Não bộ của bạn hoạt động bình thường")
+if 9<=total_complaints<=12:
+    st.info(" Não của bạn đang trong tình trạng nguy hiểm. Hãy kiểm tra chế độ ăn uống của bạn ngay hôm nay.Bạn có thể giảm thiểu sự suy giảm trí não và mất trí nhớ bằng cách sử dụng vitamin, thực phẩm tốt cho não, thảo dược, các kỹ thuật yoga và thiền, cùng với việc sử dụng thuốc phù hợp.")
+if total_complaints>= 15:
+    st.warning("Não của bạn đang cạn kiệt năng lượng. Bạn nên đi khám bác sĩ. Bạn có thể hồi phục não bộ bằng cách sử dụng thực phẩm, vitamin, thảo dược, bài tập và thuốc.")
 ## Behavior Problems
 st.markdown("# Behavioral Problems (Vấn đề hành vi):")
 st.info("Bác sĩ đánh giá các hành vi của bệnh nhân dựa trên quan sát.")
