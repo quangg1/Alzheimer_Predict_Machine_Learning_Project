@@ -1,7 +1,9 @@
+#%%
 import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib  # Thư viện để load mô hình đã lưu
+
 
 # Để mõi khi tải lại thì luôn ở đầu trang
 # Dòng script để cuộn lên đầu trang
@@ -14,7 +16,7 @@ scroll_to_top_script = """
 """
 st.markdown(scroll_to_top_script, unsafe_allow_html=True)
 # Load mô hình đã huấn luyện
-model = joblib.load(r"alzheimers_model.pkl")
+model = joblib.load("alzheimers_model.pkl")
 # Tiêu đề ứng dụng
 st.title("Alzheimer's Disease Prediction")
 
@@ -22,7 +24,7 @@ st.title("Alzheimer's Disease Prediction")
 st.write("""
 Nhập các thông tin bên dưới để dự đoán khả năng mắc bệnh Alzheimer:
 """)
-st.image("ahzimer_pic.jpg")
+
 # Form để nhập thông tin
 age = st.number_input("Age", min_value=60, max_value=100, step=1, value=60)
 gender = st.selectbox("Gender", ["Male", "Female"])
@@ -195,8 +197,7 @@ st.image("2_hinh_ngu_giac.png")
 
 ## Xử lý kết quả điểm MMSE
 # Tính điểm MMSE
-if 'score' not in st.session_state:
-    st.session_state.score = 0  
+score=0
 if st.button("# Tống điểm MMSE:"):
     score=0
     if question_1_true and not question_1_false:
@@ -246,98 +247,97 @@ if st.button("# Tống điểm MMSE:"):
         score+=1
     if question_part6_9 and not question_part6_8:
         score+=1
-    st.session_state.score = score
     st.success(f"{score}")
     
 # ADL
 # Hàm tính điểm cho mỗi câu hỏi
 def calculate_points(option):
-    if option == "Independent":
+    if option == "Tự làm được":
         return 10
-    elif option == "Needs help":
+    elif option == "Cần hỗ trợ":
         return 5
-    elif option == "Unable":
+    elif option == "Không có khả năng":
         return 0
-    elif option =="Continent":
+    elif option =="Tự kiểm soát":
         return 10
-    elif option=="Occasional accident":
+    elif option=="Thỉnh thoảng gặp sự cố":
         return 5
-    elif option=="Incontinent (or needs to be given enemas)":
+    elif option=="Không kiểm soát được (hoặc cần được hỗ trợ)":
         return 0
     return 0
 
 st.markdown('# ADL (Thang đo đánh giá khả năng tự chăm sóc bản thân):')
 st.info('Với 10 câu hỏi, những câu hỏi này đều là về những vận động cơ bản của con người, chỉ số ADL sẽ cho biết tỉ lệ phụ thuộc hay không phụ thuộc của bệnh nhân')
 # Câu hỏi 1: Feeding
-feeding = st.radio("Feeding", ("Independent", "Needs help", "Unable"), index=0)
+feeding = st.radio("Khả năng tự ăn uống", ("Tự làm được", "Cần hỗ trợ", "Không có khả năng"), index=0)
 feeding_score = calculate_points(feeding)
 
 # Câu hỏi 2: Bathing
-bathing = st.radio("Bathing", ("Independent", "Unable"), index=0)
-if bathing == "Independent":
+bathing = st.radio("Tự tắm rửa", ("Tự làm được", "Không có khả năng"), index=0)
+if bathing == "Tự làm được":
     bathing_score = 5
-elif bathing == "Unable":
+elif bathing == "Không có khả năng":
     bathing_score = 0
 
 # Câu hỏi 3: Grooming
-grooming = st.radio("Grooming (Tự chăm sóc bản thân)", ("Independent", "Unable"), index=0)
-if grooming == "Independent":
+grooming = st.radio("Tự chăm sóc bản thân", ("Tự làm được", "Không có khả năng"), index=0)
+if grooming == "Tự làm được":
     grooming_score=5
-if grooming=="Unable":
+if grooming=="Không có khả năng":
     grooming_score=0
 
 # Câu hỏi 4: Dressing
-dressing = st.radio("Dressing", ("Independent", "Needs help", "Unable"), index=0)
+dressing = st.radio("Mặc quần áo", ("Tự làm được", "Cần hỗ trợ", "Không có khả năng"), index=0)
 dressing_score = calculate_points(dressing)
 # Câu hỏi 5:Bowel control
-bowel_control= st.radio("Bowel control (Kiểm soát đại tiện)",("Continent","Occasional accident","Incontinent (or needs to be given enemas)"),index=0)
+bowel_control= st.radio("Kiểm soát đại tiện",("Tự kiểm soát","Thỉnh thoảng gặp sự cố","Không kiểm soát được (hoặc cần được hỗ trợ)"),index=0)
 bowel_control_score=calculate_points(bowel_control)
 # Câu hỏi 6: Bladder control
-bladder_control=st.radio("Bladder control (Kiểm soát bàng quang)",("Continent","Occasional accident","Incontinent (or needs to be given enemas)"),index=0)
+bladder_control=st.radio("Kiểm soát bàng quang",("Tự kiểm soát","Thỉnh thoảng gặp sự cố","Không kiểm soát được (hoặc cần được hỗ trợ)"),index=0)
 bladder_control_score=calculate_points(bladder_control)
 # Câu hỏi 7: Toilet use
-toilet_use=st.radio("Toilet use (Sử dụng toilet)",("Independent", "Needs help", "Unable"),index=0)
+toilet_use=st.radio("Sử dụng toilet",("Tự làm được", "Cần hỗ trợ", "Không có khả năng"),index=0)
 toilet_use_score=calculate_points(toilet_use)
 # Câu hỏi 8: Transfers (bed to chair and back)
-transfer=st.radio("Transfers (bed to chair and back)",("Independent", "Needs minor help (verbal or physical)", "Needs major help (1-2 people, physical), can sit","Unable"),index=0)
-if transfer =="Independent":
+transfer=st.radio("Khả năng di chuyển từ giường sang ghế",("Tự làm được", "Cần giúp đỡ nhỏ (bằng lời nói hoặc thể chất)", "Cần giúp đỡ lớn (1-2 người, thể chất), có thể ngồi","Không có khả năng"),index=0)
+if transfer =="Tự làm được":
     transfer_score=15
-if transfer =="Needs minor help (verbal or physical)":
+if transfer =="Cần giúp đỡ nhỏ (bằng lời nói hoặc thể chất)":
     transfer_score=10
-if transfer =="Needs major help (1-2 people, physical), can sit":
+if transfer =="Cần giúp đỡ lớn (1-2 người, thể chất), có thể ngồi":
     transfer_score=5
-if transfer =="Unable":
+if transfer =="Không có khả năng":
     transfer_score=0
 # Câu hỏi 9: Mobility on level surfaces
-mobility_on_level_surfaces=st.radio("Mobility on level surfaces",("Independent (but may use any aid, e.g. stick) >50 yards","Walks with help of one person (verbal or physical) >50 yards","Wheelchair independent, including corners, >50 yards","Immobile or <50 yards"),index=0)
-if mobility_on_level_surfaces =="Independent (but may use any aid, e.g. stick) >50 yards":
+mobility_on_level_surfaces=st.radio("Khả năng di chuyển",("Tự làm được (nhưng có thể sử dụng bất kỳ dụng cụ hỗ trợ nào, ví dụ: gậy) >50 yards","Đi bộ với sự giúp đỡ của một người (bằng lời nói hoặc thể chất) >50 yards","Xe lăn tự lập, bao gồm cả góc cua, >50 yards","Không di chuyển được hoặc <50 yards"),index=0)
+if mobility_on_level_surfaces =="Tự làm được (nhưng có thể sử dụng bất kỳ dụng cụ hỗ trợ nào, ví dụ: gậy) >50 yards":
     mobility_on_level_surfaces_score=15
-if mobility_on_level_surfaces =="Walks with help of one person (verbal or physical) >50 yards":
+if mobility_on_level_surfaces =="Đi bộ với sự giúp đỡ của một người (bằng lời nói hoặc thể chất) >50 yards":
     mobility_on_level_surfaces_score=10
-if mobility_on_level_surfaces =="Wheelchair independent, including corners, >50 yards":
+if mobility_on_level_surfaces =="Xe lăn tự lập, bao gồm cả góc cua, >50 yards":
     mobility_on_level_surfaces_score=5
-if mobility_on_level_surfaces =="Immobile or <50 yards":
+if mobility_on_level_surfaces =="Không di chuyển được hoặc <50 yards":
     mobility_on_level_surfaces_score=0
 # Câu 10:Stairs
-stairs=st.radio("Stairs",("Independent","Needs help (verbal, physical, carrying aid)","Unable"),index=0)
-if stairs=="Independent":
+stairs=st.radio("Di chuyển trên cầu thang",("Tự làm được","Cần hỗ trợ (bằng lời nói, thể chất, mang dụng cụ hỗ trợ)","Không có khả năng"),index=0)
+if stairs=="Tự làm được":
     stairs_score=10
-if stairs=="Needs help (verbal, physical, carrying aid)":
+if stairs=="Cần hỗ trợ (bằng lời nói, thể chất, mang dụng cụ hỗ trợ)":
     stairs_score=5
-if stairs=="Unable":
+if stairs=="Không có khả năng":
     stairs_score=0
 total_adl_score=(feeding_score + bathing_score + grooming_score + dressing_score+bowel_control_score+bladder_control_score+toilet_use_score+transfer_score+mobility_on_level_surfaces_score+stairs_score)
-st.subheader(f"Total Points: {total_adl_score}")
+st.subheader(f"Tổng điểm: {total_adl_score}")
 if 0<= total_adl_score <20:
-    st.write("Totally dependent")
+    st.write("Hoàn toàn phụ thuộc")
 elif 20<= total_adl_score <40:
-    st.write("Very dependent")
+    st.write("Đa phần phụ thuộc")
 elif 40<= total_adl_score <60:
-    st.write("Partitialy dependent")
+    st.write("Bán phụ thuộc")
 elif 60<= total_adl_score <80:
-    st.write("Minimally dependent")
+    st.write("Ít phụ thuộc")
 elif 80<= total_adl_score <=100:
-    st.write("Totally independent:")
+    st.write("Hoàn toàn tự lập")
 # Confusion
 ## Memory Complaint
 st.markdown("# Bộ câu hỏi kiểm tra trí nhớ của bệnh nhân (Memmory Complaints)")
@@ -399,7 +399,7 @@ else:
     total_complaints_binary=0
 expected_features=["MMSE",'FunctionalAssessment','MemoryComplaints','BehavioralProblems','ADL']
 
-user_input=[st.session_state.score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
+user_input=[score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
 input_data = pd.DataFrame([user_input], columns=expected_features)
 
 # Khi nhấn nút, thực hiện dự đoán
@@ -411,12 +411,10 @@ if st.button("Dự đoán khả năng mắc bệnh Alzheimer"):
     probabilities = model.predict_proba(input_data)
 
     # Hiển thị kết quả dự đoán
-    if( 0.4<=probabilities[0][1]<=0.6):
-        st.write("Có khả năng mắc Alzheimer")
-    if(probabilities[0][1]>0.6):
-        st.write("Khả năng mắc Alzheimer cao")
-    if(probabilities[0][1]<0.4):
-        st.write("Khả năng mắc Alzheimer thấp")
+    st.write("Kết quả dự đoán:", "Có khả năng mắc bệnh Alzheimer" if prediction[0] == 1 else "Nguy cơ mắc Alzheimer thấp")
+
     # Hiển thị xác suất
     st.write(f"Xác xuất: {probabilities[0][1]:.2f}")
 
+
+# %%
