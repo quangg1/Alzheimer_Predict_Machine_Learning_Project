@@ -246,7 +246,7 @@ elif 9 <= session_state.score <= 23:
     st.warning("Suy giảm nhận thức nhẹ; (Có thể cần giám sát, hỗ trợ)")
 elif 10 <= session_state.score <= 18:
     st.error("Suy giảm nhận thức trung bình; (Khiếm khuyết rõ, có thể cần giám sát 24/24h)")
-else:  session_state.score < 9
+else: 
     st.error("Suy giảm nhận thức nghiêm trọng; (Khiếm khuyết nặng, cần giám sát 24 giờ và trợ giúp trong sinh hoạt hàng ngày)")
     
 # ADL
