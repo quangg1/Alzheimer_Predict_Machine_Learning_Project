@@ -189,6 +189,8 @@ st.image("2_hinh_ngu_giac.png")
 # Tính điểm MMSE
 if 'score' not in st.session_state:
     st.session_state.score = 0
+if 'button_clicked' not in st.session_state:
+    st.session_state.button_clicked = False
 
 # Hàm tính điểm
 def calculate_score():
@@ -238,18 +240,22 @@ def calculate_score():
 # Nút tính toán
 if st.button("Tổng điểm MMSE:"):
     st.session_state.score = calculate_score()
-    st.success(f"Điểm số của bạn: {st.session_state.score}")
+    st.session_state.button_clicked = True
 
-# Đánh giá mức độ
-score = st.session_state.score
-if 24 <= score <= 30:
-    st.success("Không suy giảm nhận thức")
-elif 19 <= score <= 23:
-    st.warning("Suy giảm nhận thức nhẹ; (Có thể cần giám sát, hỗ trợ)")
-elif 10 <= score <= 18:
-    st.error("Suy giảm nhận thức trung bình; (Khiếm khuyết rõ, có thể cần giám sát 24/24h)")
-else:
-    st.error("Suy giảm nhận thức nghiêm trọng; (Khiếm khuyết nặng, cần giám sát 24 giờ và trợ giúp trong sinh hoạt hàng ngày)")
+# Hiển thị kết quả chỉ khi nút được nhấn
+if st.session_state.button_clicked:
+    st.success(f"Điểm số của bạn: {st.session_state.score}")
+    # Đánh giá mức độ
+    score = st.session_state.score
+    if 24 <= score <= 30:
+        st.success("Không suy giảm nhận thức")
+    elif 19 <= score <= 23:
+        st.warning("Suy giảm nhận thức nhẹ; (Có thể cần giám sát, hỗ trợ)")
+    elif 10 <= score <= 18:
+        st.error("Suy giảm nhận thức trung bình; (Khiếm khuyết rõ, có thể cần giám sát 24/24h)")
+    else:
+        st.error("Suy giảm nhận thức nghiêm trọng; (Khiếm khuyết nặng, cần giám sát 24 giờ và trợ giúp trong sinh hoạt hàng ngày)")
+
     
 # ADL
 # Hàm tính điểm cho mỗi câu hỏi
