@@ -187,12 +187,6 @@ st.image("2_hinh_ngu_giac.png")
 
 ## Xử lý kết quả điểm MMSE
 # Tính điểm MMSE
-if 'score' not in st.session_state:
-    st.session_state.score = 0
-if 'button_clicked' not in st.session_state:
-    st.session_state.button_clicked = False
-
-# Hàm tính điểm
 def calculate_score():
     score = 0
     # Phần 1
@@ -235,11 +229,14 @@ def calculate_score():
     if question_part6_6 and not question_part6_7: score += 1
     if question_part6_9 and not question_part6_8: score += 1
 
+    # Gán vào session_state để dùng bên ngoài
+    st.session_state.score = score
+
     return score
 
 # Nút tính toán
 if st.button("Tổng điểm MMSE:"):
-    st.session_state.score = calculate_score()
+    score = calculate_score()
     st.session_state.button_clicked = True
 
 # Hiển thị kết quả chỉ khi nút được nhấn
@@ -255,6 +252,9 @@ if st.session_state.button_clicked:
         st.error("Suy giảm nhận thức trung bình; (Khiếm khuyết rõ, có thể cần giám sát 24/24h)")
     else:
         st.error("Suy giảm nhận thức nghiêm trọng; (Khiếm khuyết nặng, cần giám sát 24 giờ và trợ giúp trong sinh hoạt hàng ngày)")
+
+# Sử dụng giá trị `score` bên ngoài
+final_score = st.session_state.get("score", 0)
 
     
 # ADL
@@ -417,7 +417,7 @@ else:
     total_complaints_binary=0
 expected_features=["MMSE",'FunctionalAssessment','MemoryComplaints','BehavioralProblems','ADL']
 
-user_input=[score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
+user_input=[final_score,fas,total_complaints_binary,total_behavior_issues_binary,total_adl_score/10]
 input_data = pd.DataFrame([user_input], columns=expected_features)
 
 # Khi nhấn nút, thực hiện dự đoán
